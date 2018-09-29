@@ -1,11 +1,17 @@
 #ifndef CLIENT_H
 #define CLIENT_H
 
+#include <QString>
 
-class Client
+#include "./statuses.h"
+#include "./ipaddress.h"
+
+struct client
 {
-public:
-    Client();
+    long id;
+    QString name;
+    ClientStatus status;
+    IPAddress clientAddress;
 };
 
 #endif // CLIENT_H

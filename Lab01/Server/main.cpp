@@ -1,11 +1,13 @@
-#include "serverscreen.h"
 #include <QApplication>
+
+#include "./serverapplication.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    ServerScreen w;
-    w.show();
+    ServerApplication server;
+
+    server.start();
 
     return a.exec();
 }
