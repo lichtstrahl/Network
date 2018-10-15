@@ -19,7 +19,7 @@ class ServerScreen : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit ServerScreen(QWidget *parent = 0);
+    explicit ServerScreen(QWidget *parent = nullptr);
     ~ServerScreen();
 
     void print(const QString &message, MessageType type = MT_INFO);

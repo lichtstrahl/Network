@@ -1,13 +1,16 @@
 #ifndef SERVERAPPLICATION_H
 #define SERVERAPPLICATION_H
 
+#include <QTcpServer>
+#include <QUdpSocket>
 #include "./serverscreen.h"
 #include "./databasemanager.h"
 
-class ServerApplication
+class ServerApplication: QObject
 {
+    Q_OBJECT
 public:
-    ServerApplication() = default;
+    ServerApplication();
     ~ServerApplication();
 
     void start();
@@ -16,7 +19,13 @@ public:
 private:
     ServerScreen window;
     DataBaseManager manager;
+    QUdpSocket textSocket;
+    QTcpServer fileServer;
 
+private slots:
+    void onDataRead();
+    void onNewConnection();
+    void onFileRead();
 };
 
 #endif // SERVERAPPLICATION_H

@@ -1,4 +1,25 @@
+#include <QDebug>
+#include <QTcpSocket>
 #include "serverapplication.h"
+
+const int textPort = 6006;
+const int filePort = 7007;
+
+ServerApplication::ServerApplication()
+{
+    textSocket.bind(QHostAddress::LocalHost, textPort);
+    if (!fileServer.listen(QHostAddress::LocalHost, filePort))
+    {
+        window.print("Can't listen on port " + QString::number(filePort), MT_ERROR);
+
+        fileServer.close();
+    }
+    else
+        window.print("Listening on port " + QString::number(filePort));
+
+    connect(&textSocket, SIGNAL(readyRead()), SLOT(onDataRead()));
+    connect(&fileServer, SIGNAL(newConnection()), SLOT(onNewConnection()));
+}
 
 ServerApplication::~ServerApplication()
 {
@@ -27,4 +48,54 @@ void ServerApplication::stop()
 
     window.print("Database connection is closed!");
     window.close();
+}
+
+void ServerApplication::onDataRead()
+{
+    while (textSocket.hasPendingDatagrams())
+    {
+        window.print("--------------------");
+        window.print("Received message on UDP socket");
+
+        QByteArray data;
+        data.resize(int(textSocket.pendingDatagramSize()));
+
+        QHostAddress address;
+        textSocket.readDatagram(data.data(), data.size(), &address);
+
+        QDataStream stream(data);
+        qint16 size;
+        stream >> size;
+        char *message;
+        stream >> message;
+        window.print("Incoming message sender address: " + address.toString());
+        window.print("Incoming message size: " + QString::number(size));
+        window.print("Incoming message: " + QString(message));
+        window.print("--------------------");
+    }
+}
+
+void ServerApplication::onNewConnection()
+{
+    QTcpSocket *pendingClient = fileServer.nextPendingConnection();
+    connect(pendingClient, SIGNAL(disconnected()), pendingClient, SLOT(deleteLater()));
+    connect(pendingClient, SIGNAL(readyRead()), SLOT(onFileRead()));
+    window.print("New client connected");
+}
+
+void ServerApplication::onFileRead()
+{
+    QTcpSocket *pendingClient = (QTcpSocket *)sender();
+
+    window.print("--------------------");
+    window.print("Received message on TCP socket");
+
+    QDataStream stream(pendingClient);
+    qint16 size;
+    stream >> size;
+    char *message;
+    stream >> message;
+    window.print("Incoming message size: " + QString::number(size));
+    window.print("Incoming message: " + QString(message));
+    window.print("--------------------");
 }

@@ -1,14 +1,14 @@
 #-------------------------------------------------
 #
-# Project created by QtCreator 2018-09-19T14:25:09
+# Project created by QtCreator 2018-10-08T12:58:12
 #
 #-------------------------------------------------
 
-QT       += core gui sql network
+QT       += core gui network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
-TARGET = Server
+TARGET = Client
 TEMPLATE = app
 
 # The following define makes your compiler emit warnings if you use
@@ -25,21 +25,10 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-        serverscreen.cpp \
-    client.cpp \
-    databasemanager.cpp \
-    serverapplication.cpp \
+        clientwindow.cpp
 
 HEADERS += \
-        serverscreen.h \
-    client.h \
-    statuses.h \
-    ipaddress.h \
-    databasemanager.h \
-    serverapplication.h \
+        clientwindow.h
 
 FORMS += \
-        serverscreen.ui
-
-DISTFILES += \
-    Scripts/init.sql
+        clientwindow.ui

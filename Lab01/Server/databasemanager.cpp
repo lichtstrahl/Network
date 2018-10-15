@@ -2,7 +2,7 @@
 
 #include "databasemanager.h"
 
-DataBaseManager::DataBaseManager(QObject *parent) : QObject(parent), db(QSqlDatabase::addDatabase("QPSQL7"))
+DataBaseManager::DataBaseManager(QObject *parent) : QObject(parent), db(QSqlDatabase::addDatabase("QPSQL"))
 {
 }
 
