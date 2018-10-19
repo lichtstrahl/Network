@@ -24,6 +24,7 @@ private:
 
     void sendUDP();
     void sendTCP();
+    void sendFile();
 
 private slots:
     void onSend();

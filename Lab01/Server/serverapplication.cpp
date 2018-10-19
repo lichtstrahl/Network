@@ -1,9 +1,13 @@
 #include <QDebug>
 #include <QTcpSocket>
+#include <QFile>
 #include "serverapplication.h"
 
 const int textPort = 6006;
 const int filePort = 7007;
+
+const qint8 tcpMessage = 0;
+const qint8 tcpFile = 1;
 
 ServerApplication::ServerApplication()
 {
@@ -93,9 +97,27 @@ void ServerApplication::onFileRead()
     QDataStream stream(pendingClient);
     qint16 size;
     stream >> size;
-    char *message;
-    stream >> message;
-    window.print("Incoming message size: " + QString::number(size));
-    window.print("Incoming message: " + QString(message));
-    window.print("--------------------");
+    qint8 type;
+    stream >> type;
+    if (type == tcpMessage)
+    {
+        char *message;
+        stream >> message;
+        window.print("Incoming message size: " + QString::number(size));
+        window.print("Incoming message: " + QString(message));
+        window.print("--------------------");
+    }
+    else
+    {
+        window.print("Incoming file size: " + QString::number(size));
+        QByteArray data;
+        stream >> data;
+
+        QFile file("download.bin");
+        file.write(data);
+        file.close();
+
+        window.print("File saved to download.bin");
+        window.print("--------------------");
+    }
 }

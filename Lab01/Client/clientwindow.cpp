@@ -1,8 +1,12 @@
+#include <QFileDialog>
 #include "clientwindow.h"
 #include "ui_clientwindow.h"
 
 const int textPort = 6006;
 const int filePort = 7007;
+
+const qint8 tcpMessage = 0;
+const qint8 tcpFile = 1;
 
 ClientWindow::ClientWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -42,6 +46,7 @@ void ClientWindow::sendTCP()
     const QString &msg = ui->message_edit->toPlainText();
 
     stream << qint16(msg.size());
+    stream << tcpMessage;
     stream << msg.toStdString().data();
 
     fileSocket.write(data);
@@ -49,6 +54,22 @@ void ClientWindow::sendTCP()
 
     ui->message_edit->setText("");
     ui->chat_edit->append(QString("TCP: " + msg));
+}
+
+void ClientWindow::sendFile()
+{
+    const QString &filename = QFileDialog::getOpenFileName(this, "Send file");
+    QFile file(filename);
+    file.open(QIODevice::ReadOnly);
+
+    QByteArray data;
+    QDataStream stream(data);
+
+    stream << tcpFile;
+    data.append(file.readAll());
+
+    fileSocket.write(data);
+    fileSocket.flush();
 }
 
 void ClientWindow::onSend()
@@ -61,6 +82,10 @@ void ClientWindow::onSend()
 
     case 1:
         sendTCP();
+        break;
+
+    case 2:
+        sendFile();
         break;
     }
 }
