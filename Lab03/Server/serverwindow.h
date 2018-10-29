@@ -36,7 +36,7 @@ private:
 
 private slots:
     void newConnection();
-    void serverClient();
+    void serveClient();
 };
 
 #endif // SERVERWINDOW_H

@@ -36,6 +36,8 @@ private:
 
 private slots:
     void onSocketConnected();
+    void onServerResponse();
+    void onSendFile();
 };
 
 #endif // CLIENTWINDOW_H
