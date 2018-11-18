@@ -1,0 +1,39 @@
+* {
+    background-color: rgb(53, 53, 53);
+    color: rgb(184, 184, 184);
+}
+
+QPushButton {
+    border: 1px solid rgb(71, 71, 71);
+    border-radius: 5px;
+    padding: 5px;
+}
+
+QPushButton:hover {
+    background-color: rgb(184, 184, 184);
+    color: rgb(53, 53, 53);
+}
+
+QTreeWidget {
+    border: 1px solid rgb(71, 71, 71);
+    border-radius: 5px;
+    padding: 5px;
+}
+
+QHeaderView {
+    border: 1px solid rgb(71, 71, 71);
+    border-radius: 5px;
+    padding: 5px;
+}
+
+QHeaderView::section {
+    background-color: rgb(53, 53, 53);
+    color: rgb(184, 184, 184);
+    border: none;
+}
+
+QTextEdit {
+    border: 1px solid rgb(71, 71, 71);
+    border-radius: 5px;
+    padding: 10px;
+}
